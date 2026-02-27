@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,700&display=swap"
+        rel="stylesheet">
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Styles CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="header">
+        <a href="#" class="logo" id="nav-name">Portfolio.</a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+        <nav class="navbar">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section class="home" id="home">
+        <div class="home-content">
+            <h3>Hello, It's Me</h3>
+            <h1 id="hero-name">Loading...</h1>
+            <h3>And I'm a <span class="multiple-text" id="hero-role">Loading...</span></h3>
+            <p id="hero-bio">Loading bio...</p>
+            <div class="social-media" id="social-links">
+                <!-- Injected via JS -->
+            </div>
+            <a href="#projects" class="btn">View Works</a>
+        </div>
+        <div class="home-img">
+            <img src="" alt="Profile Picture" id="hero-pic" style="display:none;">
+            <div class="glow-wrap" id="hero-glow"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-img">
+            <img src="" alt="About Picture" id="about-pic" style="display:none;">
+            <div class="glow-wrap"></div>
+        </div>
+        <div class="about-content">
+            <h2 class="heading">About <span>Me</span></h2>
+            <h3 id="about-role">Loading...</h3>
+            <p id="about-bio">Loading...</p>
+            <a href="#contact" class="btn">Let's Talk</a>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <h2 class="heading">My <span>Skills</span></h2>
+        <div class="skills-container" id="skills-container">
+            <!-- Injected via JS -->
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <h2 class="heading">Latest <span>Projects</span></h2>
+        <div class="portfolio-container" id="projects-container">
+            <!-- Injected via JS -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2 class="heading">Contact <span>Me!</span></h2>
+        <form action="#" id="contact-form">
+            <div class="input-box">
+                <input type="text" placeholder="Full Name" id="contact-name" name="name" required>
+                <input type="email" placeholder="Email Address" id="contact-email" name="email" required>
+            </div>
+            <div class="input-box">
+                <input type="number" placeholder="Mobile Number" id="contact-mobile" name="phone">
+                <input type="text" placeholder="Email Subject" id="contact-subject" name="subject" required>
+            </div>
+            <textarea id="contact-body" name="message" cols="30" rows="10" placeholder="Your Message"
+                required></textarea>
+            <input type="submit" value="Send Message" class="btn" id="contact-submit-btn">
+            <p id="form-message" style="display: none; margin-top: 15px; font-size: 1.6rem;"></p>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-text">
+            <p>&copy; 2026 by <span id="footer-name"></span> | All Rights Reserved.</p>
+        </div>
+        <div class="footer-iconTop">
+            <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
+        </div>
+        <!-- Admin trigger -->
+        <div class="admin-trigger" id="admin-trigger">
+            <i class='bx bxs-lock-alt'></i>
+        </div>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div class="admin-modal" id="admin-modal">
+        <div class="admin-modal-content">
+            <span class="close-modal" id="close-login">&times;</span>
+            <h2>Admin Login</h2>
+            <input type="text" id="admin-user" placeholder="Username">
+            <input type="password" id="admin-pass" placeholder="Password">
+            <button class="btn" id="admin-login-btn">Login</button>
+            <p id="admin-error" style="color: #ff3333; display: none; margin-top: 1rem;">Invalid Credentials</p>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Overlay -->
+    <div class="admin-dashboard glass-panel" id="admin-dashboard" style="display:none;">
+        <div class="admin-header">
+            <h2>Admin Dashboard</h2>
+            <button class="btn btn-small" id="admin-logout">Logout / Close</button>
+        </div>
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-target="admin-settings">Settings</button>
+            <button class="tab-btn" data-target="admin-skills">Skills</button>
+            <button class="tab-btn" data-target="admin-projects">Projects</button>
+        </div>
+
+        <div class="admin-tab-content active" id="admin-settings">
+            <h3>Profile & SEO</h3>
+            <label>Name</label><input type="text" id="edit-name">
+            <label>Role / Goal</label><input type="text" id="edit-role">
+            <label>Bio</label><textarea id="edit-bio" rows="4"></textarea>
+            <label>Contact Email</label><input type="email" id="edit-email">
+            <label>GitHub Link</label><input type="text" id="edit-github">
+            <label>LinkedIn Link</label><input type="text" id="edit-linkedin">
+            <label>Profile Picture</label>
+            <input type="file" id="edit-pic" accept="image/*">
+            <img id="edit-pic-preview" src=""
+                style="max-width: 100px; display: none; margin-top: 10px; border-radius: 10px;">
+            <button class="btn btn-save" id="save-settings">Save Settings</button>
+            <p class="success-msg" id="settings-success"></p>
+        </div>
+
+        <div class="admin-tab-content" id="admin-skills">
+            <h3>Manage Skills</h3>
+            <ul id="admin-skills-list"></ul>
+            <h4>Add New Skill</h4>
+            <input type="text" id="new-skill-name" placeholder="Skill Name">
+            <input type="number" id="new-skill-level" placeholder="Proficiency (0-100)" max="100" min="0">
+            <button class="btn btn-save" id="add-skill-btn">Add Skill</button>
+        </div>
+
+        <div class="admin-tab-content" id="admin-projects">
+            <h3>Manage Projects</h3>
+            <ul id="admin-projects-list"></ul>
+            <h4>Add New Project</h4>
+            <input type="text" id="new-proj-title" placeholder="Project Title">
+            <textarea id="new-proj-desc" placeholder="Description"></textarea>
+            <input type="text" id="new-proj-tags" placeholder="Tags (comma separated)">
+            <input type="url" id="new-proj-link" placeholder="Live Demo Link (e.g. https://website.com)">
+            <label>Project Cover Image</label>
+            <input type="file" id="new-proj-img" accept="image/*">
+            <label>Project File (For Download)</label>
+            <input type="file" id="new-proj-file">
+            <button class="btn btn-save" id="add-proj-btn">Add Project</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Firebase DB must be loaded as a module -->
+    <script type="module" src="db.js"></script>
+    <script src="app.js"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>
