@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="midnight-teal">
 
 <head>
     <meta charset="UTF-8">
@@ -9,24 +9,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap"
         rel="stylesheet">
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <!-- Styles CSS -->
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress"></div>
+
     <!-- Navbar -->
-    <header class="header">
+    <header class="header" id="main-header">
         <a href="#" class="logo" id="nav-name">Portfolio.</a>
         <div class="bx bx-menu" id="menu-icon"></div>
-        <nav class="navbar">
+        <nav class="navbar" id="main-navbar">
             <a href="#home" class="active">Home</a>
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
+            <!-- Dynamic section nav links injected here -->
             <a href="#contact">Contact</a>
         </nav>
     </header>
@@ -57,16 +61,31 @@
         </div>
         <div class="about-content">
             <h2 class="heading">About <span>Me</span></h2>
-            <h3 id="about-role">Loading...</h3>
-            <p id="about-bio">Loading...</p>
-            <a href="#contact" class="btn">Let's Talk</a>
+            <h3 class="about-role" id="about-role">Loading...</h3>
+            <p class="about-bio-text" id="about-bio">Loading...</p>
+
+            <!-- Interests -->
+            <div class="about-interests-wrap" id="about-interests-section">
+                <h4>Interests</h4>
+                <div class="interests-tags" id="about-interests">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <!-- Career Goals -->
+            <div class="about-goals-wrap" id="about-goals-section">
+                <h4>Career Goals</h4>
+                <p class="about-goals-text" id="about-career-goals">Loading...</p>
+            </div>
+
+            <a href="#contact" class="btn" style="margin-top:1rem;">Let's Talk</a>
         </div>
     </section>
 
     <!-- Skills Section -->
     <section class="skills" id="skills">
         <h2 class="heading">My <span>Skills</span></h2>
-        <div class="skills-container" id="skills-container">
+        <div class="skills-container stagger-children" id="skills-container">
             <!-- Injected via JS -->
         </div>
     </section>
@@ -74,25 +93,37 @@
     <!-- Projects Section -->
     <section class="projects" id="projects">
         <h2 class="heading">Latest <span>Projects</span></h2>
-        <div class="portfolio-container" id="projects-container">
+        <div class="portfolio-container stagger-children" id="projects-container">
             <!-- Injected via JS -->
         </div>
     </section>
 
+    <!-- Custom Sections (Experience, Education, etc.) injected by JS -->
+    <div id="custom-sections-container"></div>
+
     <!-- Contact Section -->
     <section class="contact" id="contact">
         <h2 class="heading">Contact <span>Me!</span></h2>
-        <form action="#" id="contact-form">
+        <form action="#" id="contact-form" novalidate>
             <div class="input-box">
-                <input type="text" placeholder="Full Name" id="contact-name" name="name" required>
-                <input type="email" placeholder="Email Address" id="contact-email" name="email" required>
+                <div class="field-wrap">
+                    <input type="text" placeholder="Full Name" id="contact-name" name="name" required>
+                </div>
+                <div class="field-wrap">
+                    <input type="email" placeholder="Email Address" id="contact-email" name="email" required
+                        autocomplete="email">
+                    <span class="field-error" id="email-error">Please enter a valid email address.</span>
+                </div>
             </div>
             <div class="input-box">
-                <input type="number" placeholder="Mobile Number" id="contact-mobile" name="phone">
-                <input type="text" placeholder="Email Subject" id="contact-subject" name="subject" required>
+                <div class="field-wrap">
+                    <input type="text" placeholder="Mobile Number" id="contact-mobile" name="phone">
+                </div>
+                <div class="field-wrap">
+                    <input type="text" placeholder="Email Subject" id="contact-subject" name="subject" required>
+                </div>
             </div>
-            <textarea id="contact-body" name="message" cols="30" rows="10" placeholder="Your Message"
-                required></textarea>
+            <textarea id="contact-body" name="message" rows="7" placeholder="Your Message" required></textarea>
             <input type="submit" value="Send Message" class="btn" id="contact-submit-btn">
             <p id="form-message" style="display: none; margin-top: 15px; font-size: 1.6rem;"></p>
         </form>
@@ -106,7 +137,7 @@
         <div class="footer-iconTop">
             <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
         </div>
-        <!-- Admin trigger -->
+        <!-- Admin trigger (hidden icon in footer) -->
         <div class="admin-trigger" id="admin-trigger">
             <i class='bx bxs-lock-alt'></i>
         </div>
@@ -119,66 +150,245 @@
             <h2>Admin Login</h2>
             <input type="text" id="admin-user" placeholder="Username">
             <input type="password" id="admin-pass" placeholder="Password">
-            <button class="btn" id="admin-login-btn">Login</button>
-            <p id="admin-error" style="color: #ff3333; display: none; margin-top: 1rem;">Invalid Credentials</p>
+            <button class="btn" id="admin-login-btn" style="width:100%;">Login</button>
+            <p id="admin-error" style="color: #ff5252; display: none; margin-top: 1rem; font-size:1.5rem;">Invalid
+                Credentials</p>
+        </div>
+    </div>
+
+    <!-- Project Edit Modal -->
+    <div class="edit-modal" id="edit-project-modal">
+        <div class="edit-modal-content">
+            <span class="close-modal" id="close-edit-project">&times;</span>
+            <h3>Edit Project</h3>
+            <input type="hidden" id="edit-proj-id">
+            <label>Project Title</label>
+            <input type="text" id="edit-proj-title" placeholder="Project Title">
+            <label>Description</label>
+            <textarea id="edit-proj-desc" rows="3" placeholder="Description"></textarea>
+            <label>Tags (comma separated)</label>
+            <input type="text" id="edit-proj-tags" placeholder="e.g. React, Node.js">
+            <label>Live Demo / Website Link</label>
+            <input type="url" id="edit-proj-link" placeholder="https://yourproject.com">
+            <label>Cover Image (leave blank to keep current)</label>
+            <input type="file" id="edit-proj-img" accept="image/*">
+            <label>Downloadable File (leave blank to keep current)</label>
+            <input type="file" id="edit-proj-file">
+            <div class="edit-modal-actions">
+                <button class="btn" id="save-edit-project-btn">Save Changes</button>
+                <button class="btn" id="cancel-edit-project-btn"
+                    style="background:transparent; border:1px solid #555; color:#aaa; box-shadow:none;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Item Edit Modal -->
+    <div class="edit-modal" id="edit-item-modal">
+        <div class="edit-modal-content">
+            <span class="close-modal" id="close-edit-item">&times;</span>
+            <h3>Edit Item</h3>
+            <input type="hidden" id="edit-item-section-id">
+            <input type="hidden" id="edit-item-id">
+            <label>Title / Position</label>
+            <input type="text" id="edit-item-title" placeholder="e.g. Senior Developer">
+            <label>Subtitle / Organization</label>
+            <input type="text" id="edit-item-subtitle" placeholder="e.g. Google Inc.">
+            <label>Period / Duration</label>
+            <input type="text" id="edit-item-period" placeholder="e.g. Jan 2022 – Present">
+            <label>Description</label>
+            <textarea id="edit-item-desc" rows="4" placeholder="Details..."></textarea>
+            <div class="edit-modal-actions">
+                <button class="btn" id="save-edit-item-btn">Save Changes</button>
+                <button class="btn" id="cancel-edit-item-btn"
+                    style="background:transparent; border:1px solid #555; color:#aaa; box-shadow:none;">Cancel</button>
+            </div>
         </div>
     </div>
 
     <!-- Admin Dashboard Overlay -->
-    <div class="admin-dashboard glass-panel" id="admin-dashboard" style="display:none;">
+    <div class="admin-dashboard" id="admin-dashboard" style="display:none;">
         <div class="admin-header">
-            <h2>Admin Dashboard</h2>
+            <h2>⚙ Admin Dashboard</h2>
             <button class="btn btn-small" id="admin-logout">Logout / Close</button>
         </div>
         <div class="admin-tabs">
             <button class="tab-btn active" data-target="admin-settings">Settings</button>
             <button class="tab-btn" data-target="admin-skills">Skills</button>
             <button class="tab-btn" data-target="admin-projects">Projects</button>
+            <button class="tab-btn" data-target="admin-sections">Sections</button>
+            <button class="tab-btn" data-target="admin-themes">Themes</button>
         </div>
 
+        <!-- SETTINGS TAB -->
         <div class="admin-tab-content active" id="admin-settings">
-            <h3>Profile & SEO</h3>
-            <label>Name</label><input type="text" id="edit-name">
-            <label>Role / Goal</label><input type="text" id="edit-role">
-            <label>Bio</label><textarea id="edit-bio" rows="4"></textarea>
+            <h3>Profile &amp; Identity</h3>
+            <label>Full Name</label><input type="text" id="edit-name" placeholder="Your Name">
+            <label>Role / Title</label><input type="text" id="edit-role" placeholder="e.g. Full Stack Developer">
+
+            <h4>Hero Page Bio <small style="color:var(--text-muted); font-size:1.3rem;">(Short tagline shown on
+                    Home)</small></h4>
+            <textarea id="edit-hero-bio" rows="2" placeholder="Short punchy tagline for the homepage..."></textarea>
+
+            <h4>About Me Bio <small style="color:var(--text-muted); font-size:1.3rem;">(Full bio shown on About
+                    section)</small></h4>
+            <textarea id="edit-bio" rows="4" placeholder="Detailed about me description..."></textarea>
+
+            <h4>Interests <small style="color:var(--text-muted); font-size:1.3rem;">(Comma separated tags)</small></h4>
+            <input type="text" id="edit-interests" placeholder="Web Dev, Open Source, Design, ...">
+
+            <h4>Career Goals</h4>
+            <textarea id="edit-career-goals" rows="3" placeholder="Describe your career aspirations..."></textarea>
+
+            <h3 style="margin-top:3rem;">Contact &amp; Social</h3>
             <label>Contact Email</label><input type="email" id="edit-email">
-            <label>GitHub Link</label><input type="text" id="edit-github">
-            <label>LinkedIn Link</label><input type="text" id="edit-linkedin">
-            <label>Profile Picture</label>
+            <label>GitHub Link</label><input type="text" id="edit-github" placeholder="https://github.com/...">
+            <label>LinkedIn Link</label><input type="text" id="edit-linkedin" placeholder="https://linkedin.com/in/...">
+
+            <h3 style="margin-top:3rem;">Profile Picture</h3>
             <input type="file" id="edit-pic" accept="image/*">
             <img id="edit-pic-preview" src=""
-                style="max-width: 100px; display: none; margin-top: 10px; border-radius: 10px;">
-            <button class="btn btn-save" id="save-settings">Save Settings</button>
+                style="max-width:120px; display:none; margin-top:1rem; border-radius:50%; border:2px solid var(--main-color);">
+
+            <h3 style="margin-top:3rem;">Web3Forms Key</h3>
+            <label>API Key (for contact form)</label><input type="text" id="edit-web3key"
+                placeholder="Your Web3Forms access key">
+
+            <h3 style="margin-top:3rem;">Admin Credentials</h3>
+            <label>Admin Username</label><input type="text" id="edit-admin-user">
+            <label>Admin Password</label><input type="text" id="edit-admin-pass">
+
+            <button class="btn btn-save" id="save-settings">Save All Settings</button>
             <p class="success-msg" id="settings-success"></p>
         </div>
 
+        <!-- SKILLS TAB -->
         <div class="admin-tab-content" id="admin-skills">
             <h3>Manage Skills</h3>
             <ul id="admin-skills-list"></ul>
             <h4>Add New Skill</h4>
-            <input type="text" id="new-skill-name" placeholder="Skill Name">
-            <input type="number" id="new-skill-level" placeholder="Proficiency (0-100)" max="100" min="0">
+            <input type="text" id="new-skill-name" placeholder="Skill Name (e.g. React.js)">
+            <input type="number" id="new-skill-level" placeholder="Proficiency % (0-100)" max="100" min="0"
+                style="margin-top:1rem;">
             <button class="btn btn-save" id="add-skill-btn">Add Skill</button>
         </div>
 
+        <!-- PROJECTS TAB -->
         <div class="admin-tab-content" id="admin-projects">
             <h3>Manage Projects</h3>
             <ul id="admin-projects-list"></ul>
             <h4>Add New Project</h4>
             <input type="text" id="new-proj-title" placeholder="Project Title">
-            <textarea id="new-proj-desc" placeholder="Description"></textarea>
-            <input type="text" id="new-proj-tags" placeholder="Tags (comma separated)">
-            <input type="url" id="new-proj-link" placeholder="Live Demo Link (e.g. https://website.com)">
-            <label>Project Cover Image</label>
+            <textarea id="new-proj-desc" placeholder="Description" style="margin-top:1rem;" rows="3"></textarea>
+            <input type="text" id="new-proj-tags" placeholder="Tags (comma separated)" style="margin-top:1rem;">
+            <input type="url" id="new-proj-link" placeholder="Live Demo / Website URL" style="margin-top:1rem;">
+            <label>Cover Image</label>
             <input type="file" id="new-proj-img" accept="image/*">
-            <label>Project File (For Download)</label>
+            <label>Downloadable File</label>
             <input type="file" id="new-proj-file">
             <button class="btn btn-save" id="add-proj-btn">Add Project</button>
+        </div>
+
+        <!-- SECTIONS TAB -->
+        <div class="admin-tab-content" id="admin-sections">
+            <h3>Custom Portfolio Sections</h3>
+            <p style="color:var(--text-muted); font-size:1.5rem; margin-bottom:2rem;">Add sections like Experience,
+                Education, Certificates, Future Goals, or any custom section.</p>
+            <div id="admin-sections-list"></div>
+
+            <h4>Add New Section</h4>
+            <label>Section Title</label>
+            <input type="text" id="new-section-title" placeholder="e.g. Work Experience">
+            <label>Display Style</label>
+            <select id="new-section-style"
+                style="width:100%; max-width:650px; padding:1.1rem 1.4rem; background:var(--third-bg-color); color:#fff; border:1.5px solid var(--glass-border); border-radius:0.8rem; font-size:1.5rem; margin-top:0.5rem;">
+                <option value="timeline">Timeline (Experience / Education)</option>
+                <option value="cards">Cards (Certificates / Goals)</option>
+            </select>
+            <button class="btn btn-save" id="add-section-btn" style="margin-top:1.5rem;">Add Section</button>
+        </div>
+
+        <!-- THEMES TAB -->
+        <div class="admin-tab-content" id="admin-themes">
+            <h3>Choose Website Theme</h3>
+            <p style="color:var(--text-muted); font-size:1.5rem; margin-bottom:2rem;">Select a premium color theme.
+                Changes apply instantly and are saved for all visitors.</p>
+            <div class="themes-grid">
+                <div class="theme-swatch active-theme" data-theme="midnight-teal"
+                    style="background:#1a1d24; --swatch-color:#66fcf1; --swatch-gradient:linear-gradient(135deg,#66fcf1,#45a29e);">
+                    <div class="swatch-check">✓</div>
+                    <div class="swatch-preview">
+                        <div class="swatch-dot" style="background:#66fcf1;"></div>
+                        <div class="swatch-dot" style="background:#45a29e;"></div>
+                        <div class="swatch-dot" style="background:#0b0c10;"></div>
+                    </div>
+                    <div class="swatch-name">Midnight Teal</div>
+                </div>
+                <div class="theme-swatch" data-theme="royal-purple"
+                    style="background:#1a1428; --swatch-color:#b06ef3; --swatch-gradient:linear-gradient(135deg,#b06ef3,#7c3aed);">
+                    <div class="swatch-check">✓</div>
+                    <div class="swatch-preview">
+                        <div class="swatch-dot" style="background:#b06ef3;"></div>
+                        <div class="swatch-dot" style="background:#7c3aed;"></div>
+                        <div class="swatch-dot" style="background:#0d0b14;"></div>
+                    </div>
+                    <div class="swatch-name">Royal Purple</div>
+                </div>
+                <div class="theme-swatch" data-theme="crimson-dark"
+                    style="background:#1e1214; --swatch-color:#ff5252; --swatch-gradient:linear-gradient(135deg,#ff5252,#c62828);">
+                    <div class="swatch-check">✓</div>
+                    <div class="swatch-preview">
+                        <div class="swatch-dot" style="background:#ff5252;"></div>
+                        <div class="swatch-dot" style="background:#ff8a65;"></div>
+                        <div class="swatch-dot" style="background:#0f0a0a;"></div>
+                    </div>
+                    <div class="swatch-name">Crimson Dark</div>
+                </div>
+                <div class="theme-swatch" data-theme="ocean-blue"
+                    style="background:#0a1628; --swatch-color:#2979ff; --swatch-gradient:linear-gradient(135deg,#40c4ff,#2979ff);">
+                    <div class="swatch-check">✓</div>
+                    <div class="swatch-preview">
+                        <div class="swatch-dot" style="background:#2979ff;"></div>
+                        <div class="swatch-dot" style="background:#40c4ff;"></div>
+                        <div class="swatch-dot" style="background:#050d1a;"></div>
+                    </div>
+                    <div class="swatch-name">Ocean Blue</div>
+                </div>
+                <div class="theme-swatch" data-theme="emerald-night"
+                    style="background:#0e1a12; --swatch-color:#00e676; --swatch-gradient:linear-gradient(135deg,#00e676,#00897b);">
+                    <div class="swatch-check">✓</div>
+                    <div class="swatch-preview">
+                        <div class="swatch-dot" style="background:#00e676;"></div>
+                        <div class="swatch-dot" style="background:#69f0ae;"></div>
+                        <div class="swatch-dot" style="background:#070f0b;"></div>
+                    </div>
+                    <div class="swatch-name">Emerald Night</div>
+                </div>
+                <div class="theme-swatch" data-theme="sunset-gold"
+                    style="background:#1c1608; --swatch-color:#ffd740; --swatch-gradient:linear-gradient(135deg,#ffd740,#ff8f00);">
+                    <div class="swatch-check">✓</div>
+                    <div class="swatch-preview">
+                        <div class="swatch-dot" style="background:#ffd740;"></div>
+                        <div class="swatch-dot" style="background:#ffab40;"></div>
+                        <div class="swatch-dot" style="background:#0f0c07;"></div>
+                    </div>
+                    <div class="swatch-name">Sunset Gold</div>
+                </div>
+                <div class="theme-swatch" data-theme="rose-noir"
+                    style="background:#1e1018; --swatch-color:#f48fb1; --swatch-gradient:linear-gradient(135deg,#f48fb1,#c2185b);">
+                    <div class="swatch-check">✓</div>
+                    <div class="swatch-preview">
+                        <div class="swatch-dot" style="background:#f48fb1;"></div>
+                        <div class="swatch-dot" style="background:#f06292;"></div>
+                        <div class="swatch-dot" style="background:#0f080d;"></div>
+                    </div>
+                    <div class="swatch-name">Rose Noir</div>
+                </div>
+            </div>
+            <p class="success-msg" id="theme-success" style="margin-top:2rem;"></p>
         </div>
     </div>
 
     <!-- Scripts -->
-    <!-- Firebase DB must be loaded as a module -->
     <script type="module" src="db.js"></script>
     <script src="app.js"></script>
     <script src="admin.js"></script>

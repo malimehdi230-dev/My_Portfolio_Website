@@ -1,7 +1,6 @@
 /**
  * db.js
  * Handles Firebase Realtime Database operations to store portfolio data in the Cloud.
- * Switched from Firestore to avoid billing requirements on new Google Cloud accounts.
  */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
@@ -15,7 +14,6 @@ import {
     child
 } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
-// TODO: Replace with your Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDpEj7JgzXXsaDJwTBxxb9DAcvNmj47EHw",
     authDomain: "my-portfolio-website-226cd.firebaseapp.com",
@@ -27,11 +25,9 @@ const firebaseConfig = {
     measurementId: "G-3WB328XC9J"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Setup function to verify/seed default data if DB is empty
 const initDB = async () => {
     try {
         await seedDefaultData();
@@ -43,18 +39,20 @@ const initDB = async () => {
 };
 
 const seedDefaultData = async () => {
-    // Check Settings
     const settingsSnap = await get(ref(db, 'settings'));
     if (!settingsSnap.exists()) {
         await upsert(db, 'settings', { key: 'name', value: 'Muhammad Ali Mehdi', id: 'name' });
         await upsert(db, 'settings', { key: 'role', value: 'Software Developer', id: 'role' });
-        await upsert(db, 'settings', { key: 'bio', value: 'Passionate software developer dedicated to building elegant, responsive, and robust applications.', id: 'bio' });
+        await upsert(db, 'settings', { key: 'heroBio', value: 'Crafting elegant digital experiences — one line of code at a time.', id: 'heroBio' });
+        await upsert(db, 'settings', { key: 'bio', value: 'I am a passionate software developer dedicated to building elegant, responsive, and robust applications. With a strong foundation in modern web technologies, I strive to create seamless user experiences that leave a lasting impact.', id: 'bio' });
+        await upsert(db, 'settings', { key: 'interests', value: 'Web Development, Open Source, UI/UX Design, Problem Solving', id: 'interests' });
+        await upsert(db, 'settings', { key: 'careerGoals', value: 'To become a full-stack architect who builds products that impact millions of users, while continuously learning and contributing to the developer community.', id: 'careerGoals' });
         await upsert(db, 'settings', { key: 'email', value: 'contact@example.com', id: 'email' });
         await upsert(db, 'settings', { key: 'adminUser', value: 'Admin', id: 'adminUser' });
         await upsert(db, 'settings', { key: 'adminPass', value: '337778', id: 'adminPass' });
+        await upsert(db, 'settings', { key: 'activeTheme', value: 'midnight-teal', id: 'activeTheme' });
     }
 
-    // Check Projects
     const projectsSnap = await get(ref(db, 'projects'));
     if (!projectsSnap.exists()) {
         await addData(db, 'projects', {
@@ -67,7 +65,6 @@ const seedDefaultData = async () => {
         });
     }
 
-    // Check Skills
     const skillsSnap = await get(ref(db, 'skills'));
     if (!skillsSnap.exists()) {
         await addData(db, 'skills', { name: 'JavaScript', level: 90 });
@@ -97,7 +94,6 @@ const getById = async (db, storeName, id) => {
     return null;
 };
 
-// Auto-generate ID (Push)
 const addData = async (db, storeName, data) => {
     try {
         const listRef = ref(db, storeName);
@@ -110,12 +106,10 @@ const addData = async (db, storeName, data) => {
     }
 };
 
-// Set with specific ID (like 'email' or 'name')
 const upsert = async (db, storeName, data) => {
     try {
         const docId = data.key || data.id;
         if (!docId) throw new Error("Upsert requires a unique key property");
-
         await set(ref(db, `${storeName}/${docId}`), data);
         return data;
     } catch (e) {
@@ -143,7 +137,6 @@ const fileToBase64 = (file) => {
     });
 };
 
-// Export to Global window object
 window.portfolioDB = {
     initDB,
     getAll,
